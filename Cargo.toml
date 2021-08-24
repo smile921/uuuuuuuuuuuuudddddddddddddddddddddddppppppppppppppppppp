@@ -8,7 +8,7 @@ edition = "2018"
 
 
 [[bin]]
-name = 'updServer'
+name = 'udpServer'
 path = 'src/udp-server.rs'
 [[bin]]
 name = 'udpClient'
