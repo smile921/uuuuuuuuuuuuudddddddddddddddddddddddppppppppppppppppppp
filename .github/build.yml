@@ -1,0 +1,19 @@
+---
+
+name: build-once
+
+jobs:
+  github:
+    name: GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Install Rust (stable)
+        run: |
+          rustup update stable
+      - name: Build the tool
+        run: cargo build --release
