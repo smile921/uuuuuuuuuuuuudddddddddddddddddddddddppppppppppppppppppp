@@ -306,7 +306,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "udpTool"
+name = "udp-tool"
 version = "0.1.0"
 dependencies = [
  "clap",

@@ -1,5 +1,5 @@
 [package]
-name = "udpTool"
+name = "udp-tool"
 version = "0.1.0"
 authors = ["Zhuyb <smile921@163.com>"]
 edition = "2018"
@@ -8,12 +8,14 @@ edition = "2018"
 
 
 [[bin]]
-name = 'udpServer'
+name = 'udp-server'
 path = 'src/udp-server.rs'
 [[bin]]
-name = 'udpClient'
+name = 'udp-client'
 path = 'src/udp-client.rs'
-
+[[bin]]
+name = 'main'
+path = 'src/main.rs'
 
 [dependencies]
 clap = { version="2.33.3", features=["yaml"]}

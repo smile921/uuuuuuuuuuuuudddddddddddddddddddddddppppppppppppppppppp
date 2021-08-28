@@ -1,5 +1,5 @@
 use std::net::UdpSocket;
-use std::{io, str};
+use std::{str};
 use std::env;
 
 fn main() -> std::io::Result<()> {

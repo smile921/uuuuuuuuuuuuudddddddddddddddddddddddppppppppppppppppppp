@@ -1,41 +1,31 @@
-use std::env; 
-use std::{io, str};
-use std::net::{Ipv4Addr, UdpSocket};
+// use std::{io, str};
+use std::vec::{Vec};
     
-fn main() -> std::io::Result<()> {
+// &str    -> String--| String::from(s) or s.to_string() or s.to_owned()
+// &str    -> &[u8]---| s.as_bytes()
+// &str    -> Vec<u8>-| s.as_bytes().to_vec() or s.as_bytes().to_owned()
+// String  -> &str----| &s if possible* else s.as_str()
+// String  -> &[u8]---| s.as_bytes()
+// String  -> Vec<u8>-| s.into_bytes()
+// &[u8]   -> &str----| s.to_vec() or s.to_owned()
+// &[u8]   -> String--| std::str::from_utf8(s).unwrap(), but don't**
+// &[u8]   -> Vec<u8>-| String::from_utf8(s).unwrap(), but don't**
+// Vec<u8> -> &str----| &s if possible* else s.as_slice()
+// Vec<u8> -> String--| std::str::from_utf8(&s).unwrap(), but don't**
+// Vec<u8> -> &[u8]---| String::from_utf8(s).unwrap(), but don't**
+
+
+fn main()   {
     println!("udp client starting ... ");
-    let args: Vec<String> = env::args().collect();
-
-    if args.len() < 3 {
-        println!("useage: updClient 10.97.24.182 19000");
-        return Ok(());
-    }
-    println!("{:?}", args);
-    let rport = args[2].as_str();
-    let port: i32 = rport.parse::<i32>().unwrap();
-    let mut rudpip = args[1].clone();
-    rudpip = rudpip + ":";
-    let mut bondrip = String::new()+"127.0.0.1:";
-    let bport: i32 = port + 1;
-    bondrip = bondrip + bport.to_string().as_str();
-    rudpip = rudpip + rport;
-    println!("bond ip {} , connect ip {}", bondrip, rudpip);
-    // let socket = UdpSocket::bind(bondrip)?;
-    let socket = UdpSocket::bind((Ipv4Addr::UNSPECIFIED, 12345)).unwrap();
-    socket.connect(rudpip)?;
-
-    loop {
-        let mut input = String::new();
-        io::stdin().read_line(&mut input)?;
-        socket.send(input.as_bytes())?;
-
-        let mut buffer = [0u8; 1500];
-        socket.recv_from(&mut buffer)?;
-
-        println!(
-            "recv: {}",
-            str::from_utf8(&buffer).expect("Could not write buffer as string")
-        );
-    } 
- 
+    let mut buffer:Vec<u8> = vec![0u8; 120 as usize];
+    buffer.fill('a' as u8);
+    // "sssssss".as_bytes()
+    // String::from_utf8(buffer).unwrap()
+    // /String::from("Hello boys")
+    let buf = "Hello boys ! come come";
+    let bytes:&[u8] = buf.as_bytes();
+    println!("{:?}",bytes);
+    let by = String::from_utf8(buffer).unwrap();
+    let buf:&[u8] = by.as_bytes();
+    println!("{:?}", buf);
 }
