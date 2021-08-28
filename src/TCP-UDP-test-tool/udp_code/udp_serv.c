@@ -54,8 +54,8 @@ int determin_id(char *address,int n)
 	else if(strlen(s) == 1)
 		{id=(int)(s[0]-48);}
 	else{
-	id=100*((int)(s[0]-48))+10*(s[1]-48)+(s[2]-48);
-	printf("#error,the id of node is bigger than 32!!!\n");
+		id=100*((int)(s[0]-48))+10*(s[1]-48)+(s[2]-48);
+		printf("#error,the id of node is bigger than 32!!!\n");
 	}
 	if(id == 0)
 	{
@@ -78,7 +78,7 @@ int main(int argc , char *argv[])
 {
 	if (argc <3 )
 	{
-		printf("right input format : program  ip_addr_port  \n");
+		printf("right input format : program  ip_addr_port ip_addr \n");
 	}
 	int listen_port = atoi(argv[1]);
 	// int listen_ip = (argv[2]);
