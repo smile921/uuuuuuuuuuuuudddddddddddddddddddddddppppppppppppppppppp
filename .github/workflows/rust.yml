@@ -23,14 +23,14 @@ jobs:
     - name: download git windows
       run: mkdir target && cd target && wget https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe -O Git-2.33.1-64-bit.exe && ls -al .
     - name: down vscode
-      run: wget https://az764295.vo.msecnd.net/stable/6cba118ac49a1b88332f312a8f67186f7f3c1643/VSCodeUserSetup-x64-1.61.2.exe -O vscode-stable.exe && ls -al .
+      # run: wget https://az764295.vo.msecnd.net/stable/6cba118ac49a1b88332f312a8f67186f7f3c1643/VSCodeUserSetup-x64-1.61.2.exe -O vscode-stable.exe && ls -al .
     - name: Upload a git client
       uses: actions/upload-artifact@v2.2.4
       with: 
         path: target/Git-2.33.1-64-bit.exe 
         warn: Output a warning but do not fail the action    
-    - name: Upload a vscdoe
-      uses: actions/upload-artifact@v2.2.4
-      with: 
-        path: target/vscode-stable.exe 
-        warn: Output a warning but do not fail the action    
+    # - name: Upload a vscdoe
+    #   uses: actions/upload-artifact@v2.2.4
+    #   with: 
+    #     path: target/vscode-stable.exe 
+    #     warn: Output a warning but do not fail the action    
