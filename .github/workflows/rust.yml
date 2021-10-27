@@ -16,20 +16,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build
-      run: cargo build --verbose
-    - name: Run build release
-      run: cargo build --release --verbose
+    # - name: Build
+    #   run: cargo build --verbose
+    # - name: Run build release
+    #   run: cargo build --release --verbose
     - name: download git windows
-      run: cd target && wget https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe -o Git-2.33.1-64-bit.exe 
+      run: cd target && wget https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe -O Git-2.33.1-64-bit.exe && ls -al .
     - name: down vscode
-      run: wget https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user -o vscode-stable.exe
-    - name: Upload a Build Artifact udp-server
+      run: wget https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user -O vscode-stable.exe && ls -al .
+    - name: Upload a git client
       uses: actions/upload-artifact@v2.2.4
       with: 
         path: target/Git-2.33.1-64-bit.exe 
         warn: Output a warning but do not fail the action    
-    - name: Upload a Build Artifact udp-server
+    - name: Upload a vscdoe
       uses: actions/upload-artifact@v2.2.4
       with: 
         path: target/vscode-stable.exe 
