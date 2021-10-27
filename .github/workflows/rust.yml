@@ -21,7 +21,7 @@ jobs:
     # - name: Run build release
     #   run: cargo build --release --verbose
     - name: download git windows
-      run: cd target && wget https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe -O Git-2.33.1-64-bit.exe && ls -al .
+      run: mkdir target && cd target && wget https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe -O Git-2.33.1-64-bit.exe && ls -al .
     - name: down vscode
       run: wget https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user -O vscode-stable.exe && ls -al .
     - name: Upload a git client
