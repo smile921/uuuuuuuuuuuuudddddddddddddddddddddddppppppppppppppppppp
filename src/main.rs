@@ -1,31 +1,51 @@
-// use std::{io, str};
-use std::vec::{Vec};
-    
-// &str    -> String--| String::from(s) or s.to_string() or s.to_owned()
-// &str    -> &[u8]---| s.as_bytes()
-// &str    -> Vec<u8>-| s.as_bytes().to_vec() or s.as_bytes().to_owned()
-// String  -> &str----| &s if possible* else s.as_str()
-// String  -> &[u8]---| s.as_bytes()
-// String  -> Vec<u8>-| s.into_bytes()
-// &[u8]   -> &str----| s.to_vec() or s.to_owned()
-// &[u8]   -> String--| std::str::from_utf8(s).unwrap(), but don't**
-// &[u8]   -> Vec<u8>-| String::from_utf8(s).unwrap(), but don't**
-// Vec<u8> -> &str----| &s if possible* else s.as_slice()
-// Vec<u8> -> String--| std::str::from_utf8(&s).unwrap(), but don't**
-// Vec<u8> -> &[u8]---| String::from_utf8(s).unwrap(), but don't**
+use std::fs::File;
+use std::io::BufReader;
 
+use actix_files::Files;
+use actix_web::{middleware, web, App, HttpRequest, HttpResponse, HttpServer};
+use rustls::internal::pemfile::{certs, pkcs8_private_keys};
+use rustls::{NoClientAuth, ServerConfig};
 
-fn main()   {
-    println!("udp client starting ... ");
-    let mut buffer:Vec<u8> = vec![0u8; 120 as usize];
-    buffer.fill('a' as u8);
-    // "sssssss".as_bytes()
-    // String::from_utf8(buffer).unwrap()
-    // /String::from("Hello boys")
-    let buf = "Hello boys ! come come";
-    let bytes:&[u8] = buf.as_bytes();
-    println!("{:?}",bytes);
-    let by = String::from_utf8(buffer).unwrap();
-    let buf:&[u8] = by.as_bytes();
-    println!("{:?}", buf);
+/// simple handle
+async fn index(req: HttpRequest) -> HttpResponse {
+    println!("{:?}", req);
+    HttpResponse::Ok()
+        .content_type("text/plain")
+        .body("Welcome!")
+}
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    if std::env::var("RUST_LOG").is_err() {
+        std::env::set_var("RUST_LOG", "actix_web=info");
+    }
+    env_logger::init();
+
+    println!("Started http server: 127.0.0.1:8443");
+
+    // load ssl keys
+    let mut config = ServerConfig::new(NoClientAuth::new());
+    let cert_file = &mut BufReader::new(File::open("cert.pem").unwrap());
+    let key_file = &mut BufReader::new(File::open("key.pem").unwrap());
+    let cert_chain = certs(cert_file).unwrap();
+    let mut keys = pkcs8_private_keys(key_file).unwrap();
+    config.set_single_cert(cert_chain, keys.remove(0)).unwrap();
+
+    HttpServer::new(|| {
+        App::new()
+            // enable logger
+            .wrap(middleware::Logger::default())
+            // register simple handler, handle all methods
+            .service(web::resource("/index.html").to(index))
+            // with path parameters
+            .service(web::resource("/").route(web::get().to(|| {
+                HttpResponse::Found()
+                    .header("LOCATION", "/index.html")
+                    .finish()
+            })))
+            .service(Files::new("/static", "static"))
+    })
+    .bind_rustls("127.0.0.1:8443", config)?
+    .run()
+    .await
 }

@@ -17,6 +17,10 @@ path = 'src/udp-client.rs'
 name = 'main'
 path = 'src/main.rs'
 
+[[bin]]
+name = 'static-server'
+path = 'src/static-server.rs'
+
 [dependencies]
 clap = { version="2.33.3", features=["yaml"]}
 walkdir = "2"
@@ -24,3 +28,18 @@ getopts = "0.2"
 rustyline = "8.2.0"
 socket2 = "0.3.8"
 libc = "0.2.98"
+
+actix-web = { version = "3.0.1", features = ["rustls"] }
+actix-rt = "1.1.1"
+actix-cors = "0.3.0"
+actix-files = "0.3.0"
+postgres = "0.17.5"
+serde = { version = "1.0.116", features = ["derive"] }
+serde_json = "1.0"
+json = "0.12"
+tokio-postgres = "0.5.5"
+tokio = "0.2.22"
+env_logger = "0.7.1"
+rustls = "0.18"
+ # rustls 
+ # rust-tls = ["rustls", "actix-server/rust-tls"] 
