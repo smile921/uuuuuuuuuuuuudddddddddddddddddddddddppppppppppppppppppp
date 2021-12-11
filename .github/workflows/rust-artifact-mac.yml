@@ -20,6 +20,12 @@ jobs:
       run: cargo build --verbose
     - name: Run build release
       run: cargo build --release --verbose
+    - name: install youtube-dl
+      run: brew install youtube-dl
+    - name: get-the video
+      run: youtube-dl https://www.youtube.com/watch?v=1vvyyhteIv4
+    - name: list-files
+      run: ls -al .
     - name: Upload a Build Artifact udp-client
       uses: actions/upload-artifact@v2.2.4
       with:
